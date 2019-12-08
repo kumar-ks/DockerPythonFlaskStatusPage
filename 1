@@ -24,7 +24,8 @@ def statuspage():
   cpupercent = psutil.cpu_percent(interval=None, percpu=True)
   #statusmessage = [datetimenow,memouse,storagepercent,cpupercent]
   # return statusmessage
-  return render_template('status.html',datetimenow=datetimenow ,memouse=memouse, cpupercent=cpupercent, storagepercent=storagepercent) 
+  return render_template('status.html',datetimenow=datetimenow ,memory=memouse, cpupercent=cpupercent, storagepercent=storagepercent) 
+
   # return html.format(print("The Date is",datetimenow), print("CPU Usage is",cpupercent), print("Memory Used",memouse), print("Storage Used",storagepercent))
 
 
