@@ -22,12 +22,7 @@ def statuspage():
   memouse = psutil.virtual_memory()[2]
   storagepercent = psutil.disk_usage('/')[3]
   cpupercent = psutil.cpu_percent(interval=None, percpu=True)
-  #statusmessage = [datetimenow,memouse,storagepercent,cpupercent]
-  # return statusmessage
   return render_template('status.html',datetimenow=datetimenow ,memouse=memouse, cpupercent=cpupercent, storagepercent=storagepercent) 
-  # return html.format(print("The Date is",datetimenow), print("CPU Usage is",cpupercent), print("Memory Used",memouse), print("Storage Used",storagepercent))
 
-
-#if __name__ == "__main__":
 app.run(host='0.0.0.0', port=8081)
 

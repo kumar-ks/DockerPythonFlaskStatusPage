@@ -162,6 +162,7 @@ A more detailed application to test the requirements fully, this was arrived at 
 
 ```
 from flask import Flask
+from flask import render_template
 from time import sleep
 import os
 import psutil
@@ -180,15 +181,8 @@ def statuspage():
  memouse = psutil.virtual_memory()[2]
  storagepercent = psutil.disk_usage('/')[3]
  cpupercent = psutil.cpu_percent(interval=None, percpu=True)
- 
- return html.format(print("The Date is",now), print("CPU Usage is",cpupercent), print("Memory Used",memouse), print("Storage Used",storagepercent))
+return render_template('status.html',datetimenow=datetimenow ,memouse=memouse, cpupercent=cpupercent, storagepercent=storagepercent) 
 
-```
-
-Flask app IP settings for a container
-
-```
-if __name__ == "__main__":
 app.run(host='0.0.0.0', port=8081)
 
 ```
@@ -222,5 +216,40 @@ STATUS_REFRESH_PERIOD=2
 
 ```
 
+### Displaying the output on the monitoring page
 
+The monitoring page will use format compatible with Jinja2, a templating technology that is widley used within Python's frameworks<p>
+The listed lines below are processed by the render module which will replace he variables within to curly bracked with their value.<p>
+ 
+
+
+```
+<html><head><title>conmpanyurl.co.uk-container-status-page</title></head>
+<body>
+
+
+<h2> Date </h2>
+{{ datetimenow }}
+
+
+
+<h2> Memory </h2>
+{{ memouse }}
+</br>
+
+<h2> CPU </h2>
+{{ cpupercent }}
+</br>
+
+
+<h2> Storage </h2>
+{{ storagepercent }}
+</br>
+
+
+</body>
+</html>
+
+
+```
 
