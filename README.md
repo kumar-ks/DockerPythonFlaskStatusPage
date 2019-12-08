@@ -23,7 +23,9 @@ c. The memory usage within the container.
 d. The disk usage within the container.
 
 
-### Linux Host adjustment: Prior to testing its important to ensure the teargeted ports are free to relay the traffic intended.
+### Linux Host adjustment:</p>
+
+Prior to testing its important to ensure the teargeted ports are free to relay the traffic intended.
 
 ```
 firewall-cmd  --permanent --add-port=8080/tcp
@@ -31,7 +33,7 @@ firewall-cmd  --permanent --add-port=8081/tcp
 
 ```
 
-## Testing:
+### Testing:
 
 Initial test run of part one of the requirement after downloading the image was carried out with the syntax below:
 
@@ -40,16 +42,20 @@ Initial test run of part one of the requirement after downloading the image was 
 
 ```
 
-## 2nd run: More Advanced test was comprising the extra settings that added modifiation to the apache configuration files, these were aimed at enabling the forward proxy functionality in accordance with the understanding of the specificaiton.
+### 2nd run: 
+
+More Advanced test was comprising the extra settings that added modifiation to the apache configuration files, these were aimed at enabling the forward proxy functionality in accordance with the understanding of the specificaiton.
 
 
 ```
 docker container run  --publish 8080:80  --name morawi_httpd -d -v /apacheVhosts/sites:/usr/local/apache2/conf/sites  httpd:latest
 
 ```
-## Webserver configuration as ""Forward Proxy"" addition to configuration
+## Webserver configuration 
 
-To make this config more flexibe and re-usable it was best to configure the proxy settings via 'Virtual hosts' setup. The configuration is to be dropped inside the following path 
+"Forward Proxy" addition to configuration
+To make this config more flexibe and re-usable,
+it was deemed best to configure the proxy settings via 'Virtual hosts' setup. The configuration is to be dropped inside the following path 
 within the webserver configuration.
 
 <td>  [/apps/docker/apacheconf/sites](file:///apps/docker/apacheconf/sites)       </td>
@@ -100,7 +106,9 @@ ProxyPassReverse /status <https://www.companyurl.co.uk/status>
 	
 ```
 
-## Note: 'Server name' will be looked up in the address bar: Example
+## Note: 'Server name' 
+
+will be looked up in the address bar: Example
 
 
 One needs to be aware the ServerName specified in the configuration file is companyurl.co.uk and Apache would look for this name on the Address bar when you try to reach the website.
@@ -115,7 +123,7 @@ Make an entry in your /etc/hosts file like shown below
 
 ```
 
-## 3nd run command test: Passing variables to container run command
+### 3nd run command test: Passing variables to container run command
 After further inverstigation on the way to pass variable to the container run command, it was established that the way below is the most suitable to the scenario interpretation
 
 ```
@@ -123,7 +131,9 @@ docker container run  --publish 8080:80  --name morawi_httpd -d -v /apacheVhosts
 
 ```
 
-## To build own image, to be able to add the monitoring requirements of stage 2:
+### To build own image: 
+
+to be able to add the monitoring requirements of stage 2, and have it all on one image, the image needs more components.
 
 ```
 image: httpd:latest
@@ -134,7 +144,7 @@ image: httpd:latest
 ```
 
 
-##Monitoring the container
+## Monitoring the container
 
 This can be best serverd via a Python app, in the knowledge that most functions can be servers via python libraries, more portability do different operating systems as most have python libraries that will deliver same result, some might need more adjustment.
 
