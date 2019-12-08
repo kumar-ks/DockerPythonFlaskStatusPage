@@ -23,7 +23,7 @@ c. The memory usage within the container.
 d. The disk usage within the container.
 
 
-# Linux Host adjustment: Prior to testing its important to ensure the teargeted ports are fre to relay the traffic intended.
+### Linux Host adjustment: Prior to testing its important to ensure the teargeted ports are free to relay the traffic intended.
 
 ```
 firewall-cmd  --permanent --add-port=8080/tcp
