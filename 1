@@ -1,17 +1,15 @@
 # DockerPythonFlask_ForwardProxy_Mini_Project
-
 Presenter Mo
 
-## Introduction 
+#Introduction 
 
 A docker container from a specified repository image docker [(httpd:latest]()) is to server as forward proxy for a specified company website. The chosen port on the host is 8080, on the container its 80. This container will also present a status page on port 8081. The status will reflect Processes, CPU, memory and storage utilization on the continer.
-<p>
 
 The specification as interpreted , suggest the passing of variables that behave like arrays, (in that they have multiple values, arranged in positional way).
 
-<p>Var UNSET_HTTP_HEADER = [Accept-Encoding, User-Agent, Cookie]</p>
-<p>Var SET_HTTP_HEADER =[ (User-Agent: [TechTest]()),( Host: ​ www.companyurl.co.uk)</p>
-<p>Var STATUS_REFRESH_PERIOD = (X im seconds for monitoring page)</p>
+Var UNSET_HTTP_HEADER = [Accept-Encoding, User-Agent, Cookie]
+Var SET_HTTP_HEADER =[ (User-Agent: [TechTest]()),( Host: ​ www.companyurl.co.uk)]
+Var STATUS_REFRESH_PERIOD = (X im seconds for monitoring page)
 
 
 Status page components:
@@ -23,7 +21,7 @@ c. The memory usage within the container.
 d. The disk usage within the container.
 
 
-# Linux Host adjustment: Prior to testing its important to ensure the teargeted ports are fre to relay the traffic intended.
+#Linux Host adjustment: Prior to testing its important to ensure the teargeted ports are fre to relay the traffic intended.
 
 ```
 firewall-cmd  --permanent --add-port=8080/tcp
@@ -31,29 +29,25 @@ firewall-cmd  --permanent --add-port=8081/tcp
 
 ```
 
-## Testing:
+##Testing:
 
 Initial test run of part one of the requirement after downloading the image was carried out with the syntax below:
 
 ```
-   docker run -itd -p 8080:80 --name mo_httpd httpd:latest
+docker run -itd -p 8080:80 --name mo_httpd httpd:latest
 
 ```
-
 ## 2nd run: More Advanced test was comprising the extra settings that added modifiation to the apache configuration files, these were aimed at enabling the forward proxy functionality in accordance with the understanding of the specificaiton.
-
-
 ```
 docker container run  --publish 8080:80  --name morawi_httpd -d -v /apacheVhosts/sites:/usr/local/apache2/conf/sites  httpd:latest
 
 ```
-## Webserver configuration as ""Forward Proxy"" addition to configuration
+##Webserver configuration as ''Forward Proxy"" addition to configuration
 
 To make this config more flexibe and re-usable it was best to configure the proxy settings via 'Virtual hosts' setup. The configuration is to be dropped inside the following path 
 within the webserver configuration.
 
 <td>  [/apps/docker/apacheconf/sites](file:///apps/docker/apacheconf/sites)       </td>
-
 
 ```
 <VirtualHost *:80>
@@ -98,9 +92,10 @@ ProxyPassReverse /status <https://www.companyurl.co.uk/status>
 
 </VirtualHost>
 	
+
 ```
 
-## Note: 'Server name' will be looked up in the address bar: Example
+Note: 'Server name' will be looked up in the address bar: Example
 
 
 One needs to be aware the ServerName specified in the configuration file is companyurl.co.uk and Apache would look for this name on the Address bar when you try to reach the website.
@@ -109,13 +104,11 @@ In enterprise such matters are managed with internal DNS servers. For testing, o
 
 Make an entry in your /etc/hosts file like shown below
 
-
-```
 127.0.0.1   www.companyurl.co.uk
 
-```
 
-## 3nd run command test: Passing variables to container run command
+
+##3nd run command test: Passing variables to container run command
 After further inverstigation on the way to pass variable to the container run command, it was established that the way below is the most suitable to the scenario interpretation
 
 ```
@@ -123,15 +116,15 @@ docker container run  --publish 8080:80  --name morawi_httpd -d -v /apacheVhosts
 
 ```
 
-## To build own image, to be able to add the monitoring requirements of stage 2:
+##To build own image, to be able to add the monitoring requirements of stage 2:
 
 ```
 image: httpd:latest
   hostname: comapnyurl.co.uk
   ports:
- - "8080:80"
+- "8080:80"
  
-```
+
 
 
 ##Monitoring the container
@@ -183,13 +176,10 @@ def statuspage():
  
  return html.format(print("The Date is",now), print("CPU Usage is",cpupercent), print("Memory Used",memouse), print("Storage Used",storagepercent))
 
-```
 
-Flask app IP settings for a container
-
-```
 if __name__ == "__main__":
 app.run(host='0.0.0.0', port=8081)
+
 
 ```
 
@@ -201,18 +191,15 @@ The testsing url for the monitoring applicaiton is
 <http://www.companyurl.co.uk:8081/status>
 
 ```
-## Note
+##Note
 As indicate previously '/etc/hosts' file on the local machine was adjusted to have the entry below:
-
 
 ```
 127.0.0.1 www.which.co.uk <http://companyurl.co.uk>
 #localhost localhost.localdomain localhost4 localhost4.localdomain4
 
 ```
-
 During testing the environment variable was exported to the local environment
-
 
 ```
 export STATUS_REFRESH_PERIOD=2
