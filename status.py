@@ -5,12 +5,17 @@ import psutil
 import socket
 import datetime
 import html
+import sys
 
 app = Flask(__name__)
 @app.route("/status")
 
 def statuspage():
-  statusrefreshperiod = os.getenv("STATUS_REFRESH_PERIOD")
+  try:  
+    statusrefreshperiod = int(os.environ.get('STATUS_REFRESH_PERIOD'))
+  except KeyError:
+    print("Please ensure the Variable STATUS_REFRESH_PERIOD is set correctly")
+    sys.exit(1)
   sleep(statusrefreshperiod)
   datetimenow = datetime.datetime.now()
   memouse = psutil.virtual_memory()[2]
