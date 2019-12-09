@@ -10,6 +10,7 @@ pip3 install paho-mqtt &&\
 pip3 install logging &&\
 rm -rf /var/cache/apk/*
 RUN apk add flask 
+RUN apk add --no-cache apache2-proxy
 ENV PYTHONPATH /usr/lib/python3.7/site-packages
 RUN make /app
 RUN cp status.py /app
@@ -20,6 +21,5 @@ WORKDIR /app
 ENV FLASK_APP status.py
 ENV FLASK_RUN_HOST 0.0.0.0
 CMD [ "python", "./status.py" ]
-RUN cp companyurl.co.uk.conf /etc/apache2/sites-available/companyrul.co.uk.conf
-RUN cp /etc/apache2/sites-available/companyrul.co.uk.conf /etc/apache2/sites-enabled/companyrul.co.uk.conf 
+RUN cp companyurl.co.uk.conf /etc/apache2/conf.d/default.conf
 RUN rc-service apache2 restart
