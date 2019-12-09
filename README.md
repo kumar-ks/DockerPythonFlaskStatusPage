@@ -263,3 +263,40 @@ The listed lines below are processed by the render module which will replace he 
 
 ```
 
+### View the applicaiton from two ports:
+The specificaion indicated that the monitoring page need to be viewable from two possible ports '8080' & '8081'<p>
+This can be achieved via the location configuration on the apache webserver and or Nginx, this article will focus on Apache.
+
+```
+
+ProxyPass /status  http://localhost:8081/
+ProxyPass /status  http://localhost:8080/
+
+```
+
+Above is the line that would focus on the ProxyPass directive, this is the tool that gives the flexibility.</p>
+Below is a more detailed describtion to how such a solution would take place. </p>
+
+```
+location /status {
+        # forward application requests to the flask or App gunicorn server(s)
+        proxy_pass http://localhost:8081;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+ }
+
+
+location /status {
+       # forward application requests to the flask or gunicorn App server(s)
+       proxy_pass http://localhost:8080;
+       proxy_redirect off;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+
+```
+
