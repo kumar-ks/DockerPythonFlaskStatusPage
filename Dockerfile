@@ -17,9 +17,10 @@ RUN cp status.py /app
 RUN cp templates /app
 EXPOSE 8080/tcp 
 EXPOSE 8081/tcp 
+EXPOSE 80/tcp
 WORKDIR /app
 ENV FLASK_APP status.py
 ENV FLASK_RUN_HOST 0.0.0.0
 CMD [ "python", "./status.py" ]
-RUN cp companyurl.co.uk.conf /etc/apache2/conf.d/default.conf
+RUN cp companyurl.co.uk.conf /etc/apache2/conf.d/httpd.conf
 RUN rc-service apache2 restart
