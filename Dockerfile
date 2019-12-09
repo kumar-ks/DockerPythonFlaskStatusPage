@@ -20,4 +20,6 @@ WORKDIR /app
 ENV FLASK_APP status.py
 ENV FLASK_RUN_HOST 0.0.0.0
 CMD [ "python", "./status.py" ]
-
+RUN cp companyurl.co.uk.conf /etc/apache2/sites-available/companyrul.co.uk.conf
+RUN cp /etc/apache2/sites-available/companyrul.co.uk.conf /etc/apache2/sites-enabled/companyrul.co.uk.conf 
+RUN rc-service apache2 restart
