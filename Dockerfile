@@ -11,4 +11,11 @@ pip3 install logging &&\
 rm -rf /var/cache/apk/*
 RUN apk add flask 
 ENV PYTHONPATH /usr/lib/python3.7/site-packages
+RUN make /app
+COPY status.py /app
+COPY templates /app
+EXPOSE 8080/tcp 
+EXPOSE 8081/tcp 
+WORKDIR /app
+CMD [ "python", "./status.py" ]
 
