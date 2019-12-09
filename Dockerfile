@@ -12,8 +12,8 @@ rm -rf /var/cache/apk/*
 RUN apk add flask 
 ENV PYTHONPATH /usr/lib/python3.7/site-packages
 RUN make /app
-COPY status.py /app
-COPY templates /app
+RUN cp status.py /app
+RUN cp templates /app
 EXPOSE 8080/tcp 
 EXPOSE 8081/tcp 
 WORKDIR /app
